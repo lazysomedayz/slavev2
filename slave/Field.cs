@@ -1,32 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
 
 namespace slave
 {
     class Field
     {
-        public List<Player> players;
-        private readonly Deck deck;
-        private bool HaveWinner;
-        private int queue;
-        private int CntPassed;
-        private Card lastcard;
-        public int nextPlayer;
-        public int round;
+        private List<Player> players { get; set; }
+        private Deck deck { get; set; }
+        private bool HaveWinner { get; set; }
+        private int queue { get; set; }
+        private int CntPassed { get; set; }
+        private Card LastCard { get; set; }
+        private int nextPlayer { get; set; }
+        private int round { get; set; }
 
-        public Deck Deck
-        {
-            get
-            {
-                return deck;
-            }
-            set
-            {
-
-            }
-        }
         public int Queue
         {
             get
@@ -47,12 +34,6 @@ namespace slave
             }
         }
 
-        public Card LastCard
-        {
-            get { return lastcard; }
-            set { lastcard = value; }
-        }
-
         public Field(Deck deck)
         {
             players = new List<Player>();
@@ -66,12 +47,13 @@ namespace slave
         public void Play()
         {
         start:
-            //Intro();
-            AddPlayer(new Player("111"));
-            AddPlayer(new Player("222"));
-            AddPlayer(new Player("333"));
-            AddPlayer(new Player("444"));
+            Intro();
+            //AddPlayer(new Player("111"));
+            //AddPlayer(new Player("222"));
+            //AddPlayer(new Player("333"));
+            //AddPlayer(new Player("444"));
             CardForPlayers();
+            CheckPlayerWhoHave3Club();
             Gameplay();
             Console.WriteLine("Play Again? (y/n): ");
             if (Console.ReadLine().ToLower() == "y")
@@ -86,7 +68,7 @@ namespace slave
             {
                 players.ForEach(player => player.AddCard(deck.Deal()));
             }
-            players.ForEach(player => player.Cardlist.Sort());
+            players.ForEach(player => player.GetCardlist().Sort());
 
         }
 
@@ -107,8 +89,8 @@ namespace slave
             nextPlayer = 1;
             while (HaveWinner != true)
             {
-                next:
-                if (players[Queue].Pass)
+            next:
+                if (players[Queue].GetPass())
                 {
                     this.Queue = Queue + nextPlayer;
                     goto next;
@@ -121,15 +103,18 @@ namespace slave
                 Status();
                 EndTurn();
                 this.Queue = Queue + nextPlayer;
-                
+
             }
         }
 
-        public void PrintPlayers()
+        public void CheckPlayerWhoHave3Club()
         {
-            foreach (var item in players)
+            for (int i = 0; i < 4; i++)
             {
-                Console.WriteLine(item);
+                if (players[i].Have3Club)
+                {
+                    Queue = i;
+                }
             }
         }
 
@@ -139,7 +124,7 @@ namespace slave
             LastCard = null;
             foreach (var item in players)
             {
-                item.Pass = false;
+                item.SetPass(false);
             }
             if (round % 2 == 0)
             {
@@ -153,27 +138,27 @@ namespace slave
         }
         private void EndTurn()
         {
-            if (players[Queue].NumberOfCard == 0)
+            if (players[Queue].GetTotalCard() == 0)
             {
                 HaveWinner = true;
                 EndGame();
             }
-            if (players[Queue].Pass)
+            if (players[Queue].GetPass())
             {
                 CntPassed++;
             }
-            if (players[Queue].DroppedCard != null)
+            if (players[Queue].GetDroppedCard() != null)
             {
-                LastCard = (players[Queue].DroppedCard);
+                LastCard = (players[Queue].GetDroppedCard());
             }
 
         }
         private void EndGame()
         {
             Console.Clear();
-            Console.WriteLine("Congratulations!!! The Winner is {0}\n\n\n",players[Queue].Name);
+            Console.WriteLine("Congratulations!!! The Winner is {0}\n\n\n", players[Queue].GetName());
         }
-        
+
         public void Status()
         {
             Console.WriteLine("Round : {0}", round);
@@ -233,5 +218,7 @@ namespace slave
                 Console.WriteLine("           { 1 , 2 , 3 , [4] }");
             }
         }
+
+
     }
 }

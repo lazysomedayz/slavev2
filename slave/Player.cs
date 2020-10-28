@@ -7,14 +7,40 @@ namespace slave
 {
     class Player
     {
-        public List<Card> Cardlist { get; private set; }
-        public bool Pass { get; set; }
-        public string Name { get; set; }
-        public int NumberOfCard => Cardlist.Count;
+        private List<Card> Cardlist { get; set; }
+        private bool Pass { get; set; }
+        private string Name { get; set; }
+        private int TotalCard => Cardlist.Count;
+        private bool have3Club { get; set; }
+        private Card DroppedCard { get; set; }
 
-        public bool have3Club;
+        public string GetName()
+        {
+            return Name;
+        }
 
-        public Card DroppedCard;
+        public bool GetPass()
+        {
+            return Pass;
+        }
+        public void SetPass(bool b)
+        {
+            Pass = b;
+        }
+        public int GetTotalCard()
+        {
+            return TotalCard;
+        }
+
+        public List<Card> GetCardlist()
+        {
+            return Cardlist;
+        }
+
+        public Card GetDroppedCard()
+        {
+            return DroppedCard;
+        }
 
         public Player(string name = "Unknown")
         {
@@ -41,11 +67,6 @@ namespace slave
             {
 
             }
-        }
-
-        public bool GetPass()
-        {
-            return Pass;
         }
 
         public bool WantToPass()
