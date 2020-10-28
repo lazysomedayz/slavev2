@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Xml.Schema;
 
 namespace slave
 {
@@ -121,8 +118,8 @@ namespace slave
             if (objAsCard == null) return false;
             else return Equals(objAsCard);
         }
-        
-        public int SortByValue(string card1, string card2)
+
+        public int SortByValueAndSuit(string card1, string card2)
         {
             return card1.CompareTo(card2);
         }
@@ -131,8 +128,12 @@ namespace slave
         {
             if (compareCard == null)
                 return 1;
-            else
+            else if (compareCard.Value != Value)
+            {
                 return this.Value.CompareTo(compareCard.Value);
+            }
+            else  
+                return this.Suit.CompareTo(compareCard.Suit);
         }
 
         public bool Equals(Card card)

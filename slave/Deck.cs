@@ -4,9 +4,9 @@ namespace slave
 {
     public class Deck
     {
-		public readonly int[] cards;
-		public int nextCard;
-		public readonly Random random;
+		private readonly int[] cards;
+		private int nextCard { get; set; }
+		private readonly Random random;
 
 
 		public Deck()

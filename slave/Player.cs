@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace slave
 {
@@ -46,7 +45,7 @@ namespace slave
         {
             this.Name = name;
             Cardlist = new List<Card>();
-            
+
         }
         public bool Have3Club
         {
@@ -77,15 +76,15 @@ namespace slave
 
         public void AddCard(Card card)
         {
-            Cardlist.Add(card);         
+            Cardlist.Add(card);
         }
 
         public void DropCard()
         {
             Console.WriteLine("\nWhich card do you want to drop in field?");
             Console.Write("Select the position of card in your hand. : ");
-            input:
-            int PositionOfCard = Int32.Parse(Console.ReadLine()) - 1 ;
+        input:
+            int PositionOfCard = Int32.Parse(Console.ReadLine()) - 1;
             if (PositionOfCard >= 0 && PositionOfCard <= 12)
             {
                 this.DroppedCard = Cardlist[PositionOfCard];
@@ -113,18 +112,18 @@ namespace slave
         public void ShowTotalCard()
         {
             int TotalCard = Cardlist.Count;
-            Console.WriteLine("{0}'s Card remaining: {1}",Name, TotalCard);
+            Console.WriteLine("{0}'s Card remaining: {1}", Name, TotalCard);
         }
 
         public void PlayerOption()
         {
-            input:
+        input:
             Console.Write("Enter 'P' for Pass this round.\nEnter 'D' for Drop your card.\n\nSelect : ");
             string input = Console.ReadLine().ToLower();
             if (input == "p")
             {
                 WantToPass();
-                
+
             }
             else if (input == "d")
             {
